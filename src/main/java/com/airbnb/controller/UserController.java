@@ -22,9 +22,10 @@ public class UserController {
     public ResponseEntity<String> addUser(@RequestBody PropertyUserDto propertyUserDto){
         PropertyUser propertyUser = userService.addUser(propertyUserDto);
         if(propertyUser!=null){
-            return new ResponseEntity<>("Registration is sucessful", HttpStatus.CREATED);
+            return new ResponseEntity<>("Registration is Sucessfull", HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Something Went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 }
+:
