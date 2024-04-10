@@ -28,10 +28,13 @@ public class UserController {
         return new ResponseEntity<>("Something Went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-}
 
-//@PostMapping("/login")
-//public ResponseEntity<String> login(LoginDto loginDto){
-//
-//    boolean status = userService.verifyLogin(loginDto);
-//}
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+        boolean status = userService.verifyLogin(loginDto);
+        if(status){
+            return new ResponseEntity<>("user signed in", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("invalid credentials", HttpStatus.UNAUTHORIZED);
+    }
+}

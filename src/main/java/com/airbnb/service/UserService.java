@@ -1,12 +1,15 @@
 package com.airbnb.service;
 
 
+import com.airbnb.dto.LoginDto;
 import com.airbnb.dto.PropertyUserDto;
 import com.airbnb.entity.PropertyUser;
 import com.airbnb.repository.PropertyUserRepository;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,5 +30,14 @@ public class UserService {
         user.setUserRole(propertyUserDto.getUserRole());
         PropertyUser savedUser = userRepository.save(user);
         return savedUser;
+    }
+
+    public boolean verifyLogin(LoginDto loginDto) {
+        Optional<PropertyUser> opUser = userRepository.findByUsername(loginDto.getUsername());
+        if(opUser.isPresent()){
+            PropertyUser propertyUser = opUser.get();
+            return BCrypt.checkpw(loginDto.getPassword(), propertyUser.getPassword());
+        }
+        return false;
     }
 }
