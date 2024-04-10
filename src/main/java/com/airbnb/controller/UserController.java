@@ -1,5 +1,6 @@
 package com.airbnb.controller;
 
+import com.airbnb.dto.LoginDto;
 import com.airbnb.dto.PropertyUserDto;
 import com.airbnb.entity.PropertyUser;
 import com.airbnb.service.UserService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-    private UserService userService;
+    public  UserService userService;
     public UserController(UserService userService){
         this.userService = userService;
     }
@@ -28,4 +29,9 @@ public class UserController {
 
     }
 }
-:
+
+//@PostMapping("/login")
+//public ResponseEntity<String> login(LoginDto loginDto){
+//
+//    boolean status = userService.verifyLogin(loginDto);
+//}
