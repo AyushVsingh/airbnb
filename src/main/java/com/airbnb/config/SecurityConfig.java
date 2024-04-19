@@ -13,4 +13,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().anyRequest().permitAll();
         return http.build();
     }
+    /**Project starts and automatically config file runs and returns bean http.build()
+    means this object will go to spring security framework and that framework will study the
+    object and understand that write now all the URL'S are open. **/
 }

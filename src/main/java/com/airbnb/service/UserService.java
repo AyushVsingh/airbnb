@@ -15,9 +15,14 @@ import java.util.Optional;
 public class UserService {
     private PropertyUserRepository userRepository;
 
-    public UserService(PropertyUserRepository userRepository) {
+    //Dependency Injection
+    private JWTService jwtService;
+
+    public UserService(PropertyUserRepository userRepository, JWTService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
+    //Dependency Injection done
 
     public PropertyUser addUser(PropertyUserDto propertyUserDto){
         PropertyUser user = new PropertyUser();
@@ -32,12 +37,14 @@ public class UserService {
         return savedUser;
     }
 
-    public boolean verifyLogin(LoginDto loginDto) {
+    public String verifyLogin(LoginDto loginDto) {
         Optional<PropertyUser> opUser = userRepository.findByUsername(loginDto.getUsername());
         if(opUser.isPresent()){
             PropertyUser propertyUser = opUser.get();
-            return BCrypt.checkpw(loginDto.getPassword(), propertyUser.getPassword());
+            if(BCrypt.checkpw(loginDto.getPassword(), propertyUser.getPassword())){
+                return jwtService.generateToken(propertyUser);
+            }
         }
-        return false;
+        return null;
     }
 }
