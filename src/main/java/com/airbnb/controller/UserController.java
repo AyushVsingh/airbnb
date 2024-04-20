@@ -2,6 +2,7 @@ package com.airbnb.controller;
 
 import com.airbnb.dto.LoginDto;
 import com.airbnb.dto.PropertyUserDto;
+import com.airbnb.dto.TokenResponse;
 import com.airbnb.entity.PropertyUser;
 import com.airbnb.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         String token = userService.verifyLogin(loginDto);
         if(token!=null){
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setToken(token);
+            return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>("invalid credentials", HttpStatus.UNAUTHORIZED);
     }
+
 }
