@@ -1,7 +1,7 @@
 package com.airbnb.dto;
 
 public class TokenResponse {
-    private String type="Bearer";
+    private String type = "Bearer";
     private String token;
 
     public String getType() {

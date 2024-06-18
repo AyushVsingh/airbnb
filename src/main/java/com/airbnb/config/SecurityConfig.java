@@ -8,7 +8,8 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class SecurityConfig {
-    private JWTRequestFilter jwtRequestFilter;
+
+    private final JWTRequestFilter jwtRequestFilter;
 
     public SecurityConfig(JWTRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
@@ -16,16 +17,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable();
-        http.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
-        http.authorizeHttpRequests().
-        requestMatchers("/api/v1/users/addUser", "/api/v1/users/login").permitAll()
-                .requestMatchers("/api/v1/countries/addCountry").hasRole("ADMIN")
+        http.csrf().disable()
+                .cors().and()
+                .addFilterBefore(jwtRequestFilter, AuthorizationFilter.class)
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1/users/addUser", "/api/v1/users/login").permitAll()
+                .requestMatchers("/api/v1/messages/**").permitAll() // Allow unauthenticated access to all message endpoints
                 .requestMatchers("/api/v1/users/profile").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
         return http.build();
     }
-    /**Project starts and automatically config file runs and returns bean http.build()
-    means this object will go to spring security framework and that framework will study the
-    object and understand that write now all the URL'S are open. **/
 }
