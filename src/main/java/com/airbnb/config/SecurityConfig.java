@@ -23,7 +23,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/users/addUser", "/api/v1/users/login").permitAll()
                 .requestMatchers("/api/v1/messages/**").permitAll() // Allow unauthenticated access to all message endpoints
-                .requestMatchers("/api/v1/users/profile").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/api/v1/users/profile").permitAll()
+                .requestMatchers("/api/v1/orders/placeOrder").permitAll()
+                .requestMatchers("/api/v1/orderhistory/**").permitAll()
+                .requestMatchers("/products/**").permitAll()
+                .requestMatchers("/products/category/**").permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

@@ -14,5 +14,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
+
+        // Specific CORS configuration for the new endpoints
+        registry.addMapping("/api/v1/orderhistory/getByUsername/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+
+        registry.addMapping("/api/v1/orderhistory/saveOrUpdate")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("POST", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }

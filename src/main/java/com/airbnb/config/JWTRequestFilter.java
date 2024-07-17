@@ -41,7 +41,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             if(opUser.isPresent()){
                 PropertyUser user = opUser.get();
                 //To keep track of current user logged in -- It creates different session Id for different users
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,null, Collections.singleton(new SimpleGrantedAuthority(user.getUserRole())));
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,null);
                 authentication.setDetails(new WebAuthenticationDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
